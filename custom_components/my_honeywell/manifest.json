@@ -1,0 +1,11 @@
+{
+  "domain": "my_honeywell",
+  "name": "My Honeywell TCC (Improved)",
+  "codeowners": [],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/home-assistant/core/tree/dev/homeassistant/components/honeywell",
+  "iot_class": "cloud_polling",
+  "requirements": ["aiohttp>=3.8.0"],
+  "version": "1.0.0"
+}
