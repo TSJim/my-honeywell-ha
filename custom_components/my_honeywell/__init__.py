@@ -46,8 +46,6 @@ _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS: list[Platform] = [Platform.CLIMATE, Platform.SENSOR]
 
-type MyHoneywellConfigEntry = ConfigEntry[MyHoneywellData]
-
 
 class MyHoneywellData:
     """Data class for My Honeywell integration."""
@@ -66,7 +64,7 @@ class MyHoneywellData:
         self.heat_away_temp = heat_away_temp
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: MyHoneywellConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up My Honeywell from a config entry."""
     username = entry.data[CONF_USERNAME]
     password = entry.data[CONF_PASSWORD]
@@ -136,7 +134,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyHoneywellConfigEntry) 
     return True
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: MyHoneywellConfigEntry) -> bool:
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     
@@ -158,7 +156,7 @@ class MyHoneywellCoordinator(DataUpdateCoordinator):
     instead of just marking devices as unavailable.
     """
 
-    def __init__(self, hass: HomeAssistant, entry: MyHoneywellConfigEntry) -> None:
+    def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,
