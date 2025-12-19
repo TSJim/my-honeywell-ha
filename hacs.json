@@ -1,5 +1,5 @@
 {
-  "name": "My Honeywell (Improved)",
+  "name": "Honeywell TCC Resilient",
   "render_readme": true,
   "domains": ["climate", "sensor"],
   "iot_class": "cloud_polling",

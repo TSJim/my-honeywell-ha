@@ -1,9 +1,9 @@
-# My Honeywell
+# Honeywell TCC Resilient
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![License](https://img.shields.io/github/license/TSJim/my-honeywell-ha)](LICENSE)
 
-A custom Home Assistant integration for Honeywell Total Connect Comfort thermostats that **actually stays connected**.
+A resilient Home Assistant integration for Honeywell Total Connect Comfort (TCC) thermostats that **actually stays connected**.
 
 ## The Problem
 
@@ -31,9 +31,9 @@ This integration includes a forked `aiosomecomfort` library with robust error ha
 1. Open HACS in Home Assistant
 2. Click the three dots menu → **Custom repositories**
 3. Add `https://github.com/TSJim/my-honeywell-ha` as an **Integration**
-4. Search for "My Honeywell" and install it
+4. Search for "Honeywell TCC Resilient" and install it
 5. Restart Home Assistant
-6. Go to **Settings** → **Devices & Services** → **Add Integration** → **My Honeywell**
+6. Go to **Settings** → **Devices & Services** → **Add Integration** → **Honeywell TCC Resilient**
 
 ### Manual
 

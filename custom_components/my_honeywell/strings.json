@@ -2,7 +2,7 @@
   "config": {
     "step": {
       "user": {
-        "title": "Connect to Honeywell Total Connect Comfort",
+        "title": "Honeywell TCC Resilient",
         "description": "Enter your mytotalconnectcomfort.com credentials.",
         "data": {
           "username": "Email",
