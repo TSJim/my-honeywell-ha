@@ -48,12 +48,33 @@ Enter your [mytotalconnectcomfort.com](https://mytotalconnectcomfort.com) creden
 
 ## Migrating from Official Integration
 
-1. Remove the official Honeywell integration from **Settings** → **Devices & Services**
-2. Restart Home Assistant
-3. Install this integration
-4. Re-add your thermostats
+You must remove the official Honeywell integration first to avoid conflicts.
 
-Your existing automations should continue to work with the same entity IDs.
+### Step 1: Remove the Official Integration
+
+1. Go to **Settings** → **Devices & Services**
+2. Find "Honeywell Total Connect Comfort" in your integrations list
+3. Click the three dots menu (⋮) on the integration card
+4. Select **Delete**
+5. Confirm the deletion
+
+### Step 2: Clean Up (Optional but Recommended)
+
+1. Go to **Settings** → **Devices & Services** → **Entities** tab
+2. Filter by "honeywell" to find any orphaned entities
+3. Select any remaining Honeywell entities and click **Remove Selected**
+
+### Step 3: Restart Home Assistant
+
+1. Go to **Developer Tools** → **YAML**
+2. Click **Restart** → **Restart Home Assistant**
+3. Wait for Home Assistant to fully restart
+
+### Step 4: Install My Honeywell
+
+Follow the [installation instructions](#installation) above to install and configure this integration.
+
+> **Note:** Your automations may need entity ID updates if the new integration creates different entity IDs. Check **Settings** → **Automations & Scenes** after setup.
 
 ## Troubleshooting
 
