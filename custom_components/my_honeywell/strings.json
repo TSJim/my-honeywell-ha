@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Honeywell TCC Resilient",
-        "description": "Enter your mytotalconnectcomfort.com credentials.",
+        "description": "Enter your mytotalconnectcomfort.com credentials.\n\nYour credentials are stored locally on your Home Assistant and are only used to communicate with Honeywell's servers.",
         "data": {
           "username": "Email",
           "password": "Password",
