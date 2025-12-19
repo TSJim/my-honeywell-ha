@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 256 256">
+  <!-- Generator: Adobe Illustrator 30.1.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 136)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: none;
+      }
+
+      .st1 {
+        fill: #1a252f;
+        opacity: .5;
+      }
+
+      .st2 {
+        fill: #4a90a4;
+      }
+
+      .st3 {
+        fill: url(#linear-gradient);
+      }
+
+      .st4 {
+        isolation: isolate;
+      }
+
+      .st5 {
+        fill: #2c3e50;
+      }
+
+      .st6 {
+        clip-path: url(#clippath);
+      }
+
+      .st7 {
+        fill: #ff4b38;
+      }
+    </style>
+    <clipPath id="clippath">
+      <circle class="st0" cx="128" cy="128" r="120"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="215.3" y1="128" x2="215.3" y2="21.9" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4a90a4"/>
+      <stop offset="1" stop-color="#000"/>
+    </linearGradient>
+  </defs>
+  <circle class="st2" cx="128" cy="128" r="120"/>
+  <g class="st6">
+    <rect class="st3" x="174.6" y="21.9" width="81.4" height="106.1"/>
+  </g>
+  <circle class="st5" cx="128" cy="128" r="100"/>
+  <circle class="st2" cx="165.6" cy="23.9" r="20.8"/>
+  <g class="st4">
+    <path class="st7" d="M48,209.4V50.2h40.9v62.7h80.2v-62.7h40.9v159.2h-40.9v-69.6h-80.2v69.6h-40.9Z"/>
+  </g>
+  <circle class="st1" cx="128" cy="128" r="66.4"/>
+</svg>
