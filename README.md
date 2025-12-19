@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="custom_components/my_honeywell/icon.png" alt="Honeywell TCC Resilient" width="128">
+</p>
+
 # Honeywell TCC Resilient
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
