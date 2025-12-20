@@ -6,9 +6,7 @@
         "description": "Enter your mytotalconnectcomfort.com credentials.\n\nYour credentials are stored locally on your Home Assistant and are only used to communicate with Honeywell's servers.",
         "data": {
           "username": "Email",
-          "password": "Password",
-          "cool_away_temperature": "Cool Away Temperature",
-          "heat_away_temperature": "Heat Away Temperature"
+          "password": "Password"
         }
       },
       "reauth_confirm": {
@@ -28,6 +26,18 @@
     "abort": {
       "already_configured": "This account is already configured",
       "reauth_successful": "Re-authentication successful"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Away Mode Settings",
+        "description": "Configure temperatures for when you set the thermostat to Away mode.",
+        "data": {
+          "cool_away_temperature": "Cool Away Temperature",
+          "heat_away_temperature": "Heat Away Temperature"
+        }
+      }
     }
   }
 }

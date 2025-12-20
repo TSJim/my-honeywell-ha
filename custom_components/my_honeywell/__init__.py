@@ -68,8 +68,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up My Honeywell from a config entry."""
     username = entry.data[CONF_USERNAME]
     password = entry.data[CONF_PASSWORD]
-    cool_away_temp = entry.data.get(CONF_COOL_AWAY_TEMPERATURE, DEFAULT_COOL_AWAY_TEMPERATURE)
-    heat_away_temp = entry.data.get(CONF_HEAT_AWAY_TEMPERATURE, DEFAULT_HEAT_AWAY_TEMPERATURE)
+    # Get away temps from options first, then data (for backwards compat), then defaults
+    cool_away_temp = entry.options.get(
+        CONF_COOL_AWAY_TEMPERATURE,
+        entry.data.get(CONF_COOL_AWAY_TEMPERATURE, DEFAULT_COOL_AWAY_TEMPERATURE)
+    )
+    heat_away_temp = entry.options.get(
+        CONF_HEAT_AWAY_TEMPERATURE,
+        entry.data.get(CONF_HEAT_AWAY_TEMPERATURE, DEFAULT_HEAT_AWAY_TEMPERATURE)
+    )
 
     # Create a session that persists
     session = aiohttp.ClientSession()
