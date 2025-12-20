@@ -7,5 +7,5 @@
   "documentation": "https://github.com/TSJim/my-honeywell-ha",
   "iot_class": "cloud_polling",
   "requirements": ["aiohttp>=3.8.0"],
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
