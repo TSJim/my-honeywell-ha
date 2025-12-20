@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="custom_components/my_honeywell/icon.png" alt="Honeywell TCC Resilient" width="128">
+  <img src="https://raw.githubusercontent.com/TSJim/my-honeywell-ha/main/custom_components/my_honeywell/icon.png" alt="Honeywell TCC Resilient" width="128">
 </p>
 
 # Honeywell TCC Resilient
