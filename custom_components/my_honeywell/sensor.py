@@ -28,9 +28,10 @@ async def async_setup_entry(
     """Set up sensor entities."""
     data = hass.data[DOMAIN][entry.entry_id]
     coordinator = data["coordinator"]
-    
+    devices = data["devices"]
+
     entities = []
-    for device in entry.runtime_data.devices:
+    for device in devices:
         # Indoor humidity sensor
         if device.current_humidity is not None:
             entities.append(

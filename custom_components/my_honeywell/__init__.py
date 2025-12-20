@@ -47,23 +47,6 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.CLIMATE, Platform.SENSOR]
 
 
-class MyHoneywellData:
-    """Data class for My Honeywell integration."""
-
-    def __init__(
-        self,
-        client: AIOSomeComfort,
-        devices: list,
-        cool_away_temp: int,
-        heat_away_temp: int,
-    ) -> None:
-        """Initialize the data class."""
-        self.client = client
-        self.devices = devices
-        self.cool_away_temp = cool_away_temp
-        self.heat_away_temp = heat_away_temp
-
-
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up My Honeywell from a config entry."""
     username = entry.data[CONF_USERNAME]
@@ -114,23 +97,19 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     _LOGGER.info("Found %d Honeywell device(s)", len(devices))
 
-    # Store data for platforms
-    entry.runtime_data = MyHoneywellData(
-        client=client,
-        devices=devices,
-        cool_away_temp=cool_away_temp,
-        heat_away_temp=heat_away_temp,
-    )
+    # Store data in hass.data
+    hass.data.setdefault(DOMAIN, {})
+    hass.data[DOMAIN][entry.entry_id] = {
+        "client": client,
+        "devices": devices,
+        "cool_away_temp": cool_away_temp,
+        "heat_away_temp": heat_away_temp,
+        "session": session,
+    }
 
     # Create coordinator with improved error handling
     coordinator = MyHoneywellCoordinator(hass, entry)
-    
-    # Store coordinator for access
-    hass.data.setdefault(DOMAIN, {})
-    hass.data[DOMAIN][entry.entry_id] = {
-        "coordinator": coordinator,
-        "session": session,
-    }
+    hass.data[DOMAIN][entry.entry_id]["coordinator"] = coordinator
 
     # Do initial refresh
     await coordinator.async_config_entry_first_refresh()
@@ -144,7 +123,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
-    
+
     if unload_ok:
         data = hass.data[DOMAIN].pop(entry.entry_id)
         # Close the session
@@ -158,7 +137,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 class MyHoneywellCoordinator(DataUpdateCoordinator):
     """
     Improved coordinator with automatic retry and re-authentication.
-    
+
     This is the KEY IMPROVEMENT - we handle errors gracefully and recover
     instead of just marking devices as unavailable.
     """
@@ -172,21 +151,25 @@ class MyHoneywellCoordinator(DataUpdateCoordinator):
             update_interval=DEFAULT_SCAN_INTERVAL,
         )
         self.entry = entry
-        self.data: MyHoneywellData = entry.runtime_data
         self._consecutive_errors = 0
         self._max_consecutive_errors = 5
+
+    def _get_data(self):
+        """Get the integration data from hass.data."""
+        return self.hass.data[DOMAIN][self.entry.entry_id]
 
     async def _async_update_data(self) -> dict[str, Any]:
         """
         Fetch data with robust error handling.
-        
+
         This method implements:
         1. Automatic re-authentication on auth errors
         2. Graceful handling of transient errors
         3. Progressive backoff on repeated failures
         """
-        client = self.data.client
-        devices = self.data.devices
+        integration_data = self._get_data()
+        client = integration_data["client"]
+        devices = integration_data["devices"]
 
         try:
             # Ensure we're authenticated
@@ -232,7 +215,7 @@ class MyHoneywellCoordinator(DataUpdateCoordinator):
             self._consecutive_errors += 1
             _LOGGER.warning("Rate limited, will retry later: %s", ex)
             # Don't raise UpdateFailed for rate limiting - just skip this update
-            return self.data if hasattr(self, 'data') and self.data else {}
+            return self.data if self.data else {}
 
         except ServiceUnavailable as ex:
             self._consecutive_errors += 1
@@ -245,7 +228,7 @@ class MyHoneywellCoordinator(DataUpdateCoordinator):
             if self._consecutive_errors >= self._max_consecutive_errors:
                 raise UpdateFailed(f"Service unavailable after {self._consecutive_errors} attempts: {ex}") from ex
             # Return stale data for transient errors
-            return self.data if hasattr(self, 'data') and self.data else {}
+            return self.data if self.data else {}
 
         except SomeComfortConnectionError as ex:
             self._consecutive_errors += 1
@@ -257,7 +240,7 @@ class MyHoneywellCoordinator(DataUpdateCoordinator):
             )
             if self._consecutive_errors >= self._max_consecutive_errors:
                 raise UpdateFailed(f"Connection error after {self._consecutive_errors} attempts: {ex}") from ex
-            return self.data if hasattr(self, 'data') and self.data else {}
+            return self.data if self.data else {}
 
         except Exception as ex:
             self._consecutive_errors += 1

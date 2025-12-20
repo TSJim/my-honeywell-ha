@@ -69,18 +69,21 @@ async def async_setup_entry(
     """Set up climate entities."""
     data = hass.data[DOMAIN][entry.entry_id]
     coordinator = data["coordinator"]
-    
+    devices = data["devices"]
+    cool_away_temp = data["cool_away_temp"]
+    heat_away_temp = data["heat_away_temp"]
+
     entities = []
-    for device in entry.runtime_data.devices:
+    for device in devices:
         entities.append(
             MyHoneywellClimate(
                 coordinator,
                 device,
-                entry.runtime_data.cool_away_temp,
-                entry.runtime_data.heat_away_temp,
+                cool_away_temp,
+                heat_away_temp,
             )
         )
-    
+
     async_add_entities(entities)
 
 
