@@ -8,19 +8,14 @@
       }
 
       .st1 {
-        fill: #1a252f;
-        opacity: .5;
-      }
-
-      .st2 {
         fill: #4a90a4;
       }
 
-      .st3 {
+      .st2 {
         fill: url(#linear-gradient);
       }
 
-      .st4 {
+      .st3, .st4 {
         isolation: isolate;
       }
 
@@ -29,29 +24,39 @@
       }
 
       .st6 {
-        clip-path: url(#clippath);
+        opacity: .2;
+      }
+
+      .st4 {
+        fill: #1a252f;
+        opacity: .5;
       }
 
       .st7 {
+        clip-path: url(#clippath);
+      }
+
+      .st8 {
         fill: #ff4b38;
       }
     </style>
     <clipPath id="clippath">
       <circle class="st0" cx="128" cy="128" r="120"/>
     </clipPath>
-    <linearGradient id="linear-gradient" x1="215.3" y1="128" x2="215.3" y2="21.9" gradientUnits="userSpaceOnUse">
+    <linearGradient id="linear-gradient" x1="224.3" y1="130" x2="224.3" y2="230.1" gradientTransform="translate(0 258) scale(1 -1)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#4a90a4"/>
       <stop offset="1" stop-color="#000"/>
     </linearGradient>
   </defs>
-  <circle class="st2" cx="128" cy="128" r="120"/>
-  <g class="st6">
-    <rect class="st3" x="174.6" y="21.9" width="81.4" height="106.1"/>
+  <circle class="st1" cx="128" cy="128" r="120"/>
+  <g class="st7">
+    <rect class="st2" x="192.6" y="27.9" width="63.4" height="100.1"/>
   </g>
   <circle class="st5" cx="128" cy="128" r="100"/>
-  <circle class="st2" cx="165.6" cy="23.9" r="20.8"/>
-  <g class="st4">
-    <path class="st7" d="M48,209.4V50.2h40.9v62.7h80.2v-62.7h40.9v159.2h-40.9v-69.6h-80.2v69.6h-40.9Z"/>
+  <g class="st3">
+    <path class="st8" d="M48,209.4V50.2h40.9v54.7h80.2v-54.7h40.9v159.2h-40.9v-61.6h-80.2v61.6h-40.9Z"/>
   </g>
-  <circle class="st1" cx="128" cy="128" r="66.4"/>
+  <circle class="st4" cx="128" cy="128" r="66.4"/>
+  <circle class="st6" cx="201.3" cy="51" r="20.8"/>
+  <circle class="st1" cx="201.3" cy="45" r="20.8"/>
 </svg>
