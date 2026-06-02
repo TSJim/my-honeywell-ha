@@ -6,17 +6,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Custom Home Assistant integration for Honeywell Total Connect Comfort (TCC) thermostats. This is a fork of the official integration with improved error handling to prevent the daily "unavailable" failures.
 
+**Minimum HA Version:** 2024.1.0
+
 ## Architecture
 
-### Two-Layer Retry Pattern
+### Three-Layer Retry Pattern
 
-The integration implements retry logic at two levels:
+The integration implements retry logic at three levels:
 
-1. **HTTP Layer** (`aiosomecomfort/__init__.py`): `_request_json_with_retry()` handles 401/403 (re-authenticate) and 500/502/503 (exponential backoff)
+1. **HTTP Layer** (`custom_components/my_honeywell/aiosomecomfort/__init__.py`): `_request_json_with_retry()` handles 401/403 (re-authenticate) and 500/502/503 (exponential backoff with base 2s)
 
-2. **Coordinator Layer** (`__init__.py`): `MyHoneywellCoordinator._async_update_data()` tracks consecutive errors and returns stale data instead of marking devices unavailable immediately (fails only after 5 consecutive errors)
+2. **Coordinator Layer** (`custom_components/my_honeywell/__init__.py`): `MyHoneywellCoordinator._async_update_data()` tracks consecutive errors and returns stale data instead of marking devices unavailable immediately (fails only after 5 consecutive errors)
 
-3. **Entity Layer** (`climate.py`): All set operations retry 3 times with exponential backoff
+3. **Entity Layer** (`custom_components/my_honeywell/climate.py`): All set operations retry 3 times with exponential backoff
+
+### Key Constants (`const.py`)
+
+- `DEFAULT_SCAN_INTERVAL`: 30 seconds
+- `DEFAULT_RETRY_COUNT`: 3
+- `RETRY_BACKOFF_BASE`: 2 seconds
 
 ### Key Components
 
@@ -24,25 +32,31 @@ The integration implements retry logic at two levels:
 - `__init__.py`: Integration setup and `MyHoneywellCoordinator` (polls every 30s)
 - `climate.py`: Climate entity using `CoordinatorEntity` pattern
 - `sensor.py`: Temperature/humidity sensors
+- `config_flow.py`: UI-based configuration flow with options flow for away temperatures (defaults: cool=88°F, heat=61°F). Away temps stored in `entry.options` and fall back to `entry.data` for backwards compatibility.
 
 ### Session Cookie Handling
 
 Honeywell's `.ASPXAUTH_TRUEHOME` cookie has malformed expiration. The code clears the `expires` attribute after each response to prevent cookie parsing errors.
 
-## Testing
+## Development Workflow
 
-No automated tests exist. Manual testing in Home Assistant:
+No build step, linters, or automated tests. Development is done by:
 
-```bash
-# Copy to HA custom_components
-cp -r my_honeywell /path/to/config/custom_components/
+1. Make changes in `custom_components/my_honeywell/`
+2. Copy to Home Assistant: `cp -r custom_components/my_honeywell /path/to/config/custom_components/`
+3. Restart Home Assistant
+4. Enable debug logging in `configuration.yaml`:
+   ```yaml
+   logger:
+     logs:
+       custom_components.my_honeywell: debug
+       somecomfort: debug
+   ```
+5. Monitor logs in Home Assistant
 
-# Enable debug logging in configuration.yaml:
-# logger:
-#   logs:
-#     custom_components.my_honeywell: debug
-#     somecomfort: debug
-```
+**Version bumping:** Update `version` in `manifest.json` (the sole source of truth for the integration version)
+
+**Distribution:** HACS custom repository (`https://github.com/TSJim/my-honeywell-ha`). Users must remove the official Honeywell integration before installing this one to avoid conflicts.
 
 ## Honeywell API
 
